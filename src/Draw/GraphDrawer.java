@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;
+import ConnectionLogic.Server;
 
 /**
  * @author John B. Matthews; distribution per GPL.
  */
 public class GraphDrawer extends JComponent {
 	
-	private static final int WIDE = 1380;
-	private static final int HIGH = 860;
+	private static final int WIDE = 1860;
+	private static final int HIGH = 960;
 	private static final int RADIUS = 50;
 	private static final Random rnd = new Random();
 	private int radius = RADIUS;
@@ -34,21 +35,20 @@ public class GraphDrawer extends JComponent {
 				f.setVisible(true);
 				f.setResizable(false);
 				
+				int j;
+				int numDevices = Server.connections.numDevices();
+				int numBots = 5;
+				for (j = 0; j < numDevices + numBots; j++) {
+					graphDrawer.createNodes();
+				}
+				
+				for (Node node:  graphDrawer.nodes
+				     ) {
+					graphDrawer.createEdges(node, graphDrawer.nodes.get(rnd.nextInt(j)));
+				}
 				
 				
-				graphDrawer.createNodes();
-				graphDrawer.createNodes();
-				graphDrawer.createNodes();
-				graphDrawer.createNodes();
 				
-				graphDrawer.createEdges(graphDrawer.nodes.get(0), graphDrawer.nodes.get(1));
-				
-				graphDrawer.createEdges(graphDrawer.nodes.get(1), graphDrawer.nodes.get(2));
-				graphDrawer.createEdges(graphDrawer.nodes.get(0), graphDrawer.nodes.get(2));
-				
-				graphDrawer.createEdges(graphDrawer.nodes.get(0), graphDrawer.nodes.get(3));
-				graphDrawer.createEdges(graphDrawer.nodes.get(1), graphDrawer.nodes.get(3));
-				graphDrawer.createEdges(graphDrawer.nodes.get(2), graphDrawer.nodes.get(3));
 			}
 		});
 		
