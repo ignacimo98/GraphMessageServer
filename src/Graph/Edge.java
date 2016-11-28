@@ -20,7 +20,11 @@ public class Edge{
 
 
     public boolean compareTo(Edge edge) {
-        if (this.one == edge.one && this.two == edge.two && this.weight )
-        return true;
+        if (this.one == edge.one && this.two == edge.two && this.weight == edge.weight ) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
