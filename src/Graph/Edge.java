@@ -14,6 +14,18 @@ public class Edge{
         this.weight = weight;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public Device getSource(){
+        return one;
+    }
+
+    public Device getDestination(){
+        return two;
+    }
+
     public Edge(Device one, Device two){
         this(one, two, 1);
     }

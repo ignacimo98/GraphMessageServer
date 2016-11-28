@@ -2,6 +2,7 @@ package Graph;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,6 +31,14 @@ public class Graph {
 
     public void addEdge(Device one, Device two){
         this.edgeList.add(new Edge(one, two));
+    }
+
+    public List<Device> getVertexes() {
+        return deviceList;
+    }
+
+    public List<Edge> getEdges() {
+        return edgeList;
     }
 
     public int numDevices(){

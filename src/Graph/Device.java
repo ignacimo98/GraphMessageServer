@@ -24,6 +24,10 @@ public class Device {
 
     }
 
+    public String getMACAddress() {
+        return MACAddress;
+    }
+
     public void setNombre(String nombre){
         this.nombre = nombre;
     }

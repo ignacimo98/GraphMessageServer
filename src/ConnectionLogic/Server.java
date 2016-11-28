@@ -1,5 +1,6 @@
 package ConnectionLogic;
 
+import BTree.BTree;
 import Graph.*;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.Enumeration;
  */
 public class Server extends Thread {
     public static Graph connections = new Graph();
+    public static BTree<String, String> serverTree = new BTree<String,String>();
     private int serverPORT = 2407;
     private ServerSocket serverSocket;
     public static int maxClients = 50;
@@ -75,12 +77,25 @@ public class Server extends Thread {
         }
     }
 
-<<<<<<< HEAD
 
-=======
+
+
     public static void main(String[] args) {
         Server server = new Server();
         System.out.println(server.getIp()+':'+server.getServerPORT());
+        Device d1 = new Device("12:43:12:53:14");
+        d1.addPairedDevice("43:12:43:12:56");
+        d1.addPairedDevice("76:23:53:12:42");
+        Server.connections.addDevice(d1);
+        Device d2 = new Device("43:12:43:12:56");
+        d2.addPairedDevice("12:43:12:53:14");
+        d2.addPairedDevice("76:23:53:12:42");
+        Server.connections.addDevice(d2);
+        Device d3 = new Device("76:23:53:12:42");
+        d3.addPairedDevice("12:43:12:53:14");
+        d3.addPairedDevice("43:12:43:12:56");
+        Server.connections.addDevice(d3);
+        Server.lookForConnections();
 
 
 
@@ -92,14 +107,15 @@ public class Server extends Thread {
                 for (String pairedMac : device.pairedDevices){
                     for (Device dispositivo : Server.connections.deviceList){
                         if (pairedMac.equals(dispositivo.MACAddress)) {
-                            Server.connections.addEdge(device, dispositivo);
+                            for(Edge edge : Server.connections.edgeList) {
+                                if (!edge.compareTo(new Edge(device, dispositivo))) {
+                                    Server.connections.addEdge(device, dispositivo);
+                                }
+                            }
                         }
-
                     }
                 }
             }
         }
-
     }
->>>>>>> Server medio funcional
 }

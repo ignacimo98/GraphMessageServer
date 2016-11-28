@@ -1,5 +1,6 @@
 package ConnectionLogic;
 
+
 import Graph.Device;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,34 +51,33 @@ public class SubServer extends Thread {
             String msg;
             if (BannedDevices.getInstance().isBanned(this.dispositivo.MACAddress)){
                 msg = "Sorry perro, está baneao!\n";
+                output.print(msg);
             } else {
                 msg = "Bienvenido, es el cliente [" + id + "]\n";
+                output.print(msg);
                 Server.connections.addDevice(dispositivo);
                 this.dispositivo.validate();
                 Server.lookForConnections();
 
+                while (true) {
+                    String iterStr = input.readLine();
+                    if (iterStr != null){
+                        JSONObject toDo = new JSONObject(iterStr);
+                        if(toDo.getString("accion").equals("buscar")){
+                            output.print(this.buscar(toDo.getString("Search")));
+                        }
+                    }
+                }
             }
-
-            output.print(msg);
-
-//            while (true){
-//                System.out.println(input.readLine());
-//            }
-
-
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-
+    private String buscar(String search) {
+        return Server.serverTree.search(search);
+    }
 
 
 }

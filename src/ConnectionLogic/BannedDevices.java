@@ -31,11 +31,10 @@ public class BannedDevices {
         bannedDevices.insertFirst(mac);
     }
 
-<<<<<<< HEAD
-=======
+
     public void unban(String mac){
         bannedDevices.remove(mac);
     }
 
->>>>>>> Server medio funcional
+
 }
