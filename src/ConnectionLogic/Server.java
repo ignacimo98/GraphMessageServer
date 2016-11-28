@@ -1,5 +1,7 @@
 package ConnectionLogic;
 
+import Graph.*;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
@@ -8,10 +10,11 @@ import java.util.Enumeration;
  * Created by nachomora on 11/24/16.
  */
 public class Server extends Thread {
+    public static Graph connections = new Graph();
     private int serverPORT = 2407;
     private ServerSocket serverSocket;
     public static int maxClients = 50;
-    private SubServer[] clientConnections = new SubServer[maxClients];
+    private static SubServer[] clientConnections = new SubServer[maxClients];
 
     public Server(){
         try {
@@ -72,5 +75,31 @@ public class Server extends Thread {
         }
     }
 
+<<<<<<< HEAD
 
+=======
+    public static void main(String[] args) {
+        Server server = new Server();
+        System.out.println(server.getIp()+':'+server.getServerPORT());
+
+
+
+    }
+
+    public static void lookForConnections() {
+        for (Device device : Server.connections.deviceList){
+            if (device.isValid){
+                for (String pairedMac : device.pairedDevices){
+                    for (Device dispositivo : Server.connections.deviceList){
+                        if (pairedMac.equals(dispositivo.MACAddress)) {
+                            Server.connections.addEdge(device, dispositivo);
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+>>>>>>> Server medio funcional
 }

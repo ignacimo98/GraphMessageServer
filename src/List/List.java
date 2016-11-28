@@ -33,4 +33,32 @@ public class List {
         }
         return result;
     }
+
+    public Node remove(String value){
+        Node temp = this.head;
+        if (this.head.getValue().equals(value)){
+            this.head = temp.getNext();
+        }else{
+            while (temp != null){
+
+            }
+        }
+        return temp;
+
+    }
+
+    @Override
+    public String toString() {
+        String result = "[";
+        if (this.head == null){
+            return result +']';
+        }
+        Node temp = this.head;
+        while (temp.getNext() != null){
+            result+=temp.getValue()+", ";
+            temp = temp.getNext();
+        }
+        result += temp.getValue() + "]";
+        return result;
+    }
 }

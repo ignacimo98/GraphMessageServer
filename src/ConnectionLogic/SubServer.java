@@ -1,12 +1,11 @@
 package ConnectionLogic;
 
-import DeviceLogic.Device;
-import com.oracle.javafx.jmx.json.JSONReader;
+import Graph.Device;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Date;
 
 /**
  * Created by nachomora on 11/24/16.
@@ -14,6 +13,7 @@ import java.util.Date;
 public class SubServer extends Thread {
     private int id;
     private Socket connection;
+    private Device dispositivo;
 
     //atributos de cada cliente
 
@@ -25,25 +25,46 @@ public class SubServer extends Thread {
         start();
     }
 
+    public Device getDispositivo() {
+        return dispositivo;
+    }
+
     @Override
     public void run(){
         try {
 
             BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            JSONObject JSONDispositivo = new JSONObject(input.readLine());
-            Device dispositivo = new Device(JSONDispositivo.getString("MacAddress"));
-            System.out.println(JSONDispositivo.get("DispositivosApareados"));
+            String firstInput = input.readLine();
+            System.out.println(firstInput);
+            JSONObject JSONDispositivo = new JSONObject(firstInput);
+            this.dispositivo = new Device(JSONDispositivo.getString("MacAddress"));
+            JSONArray MacAddressArray = JSONDispositivo.getJSONArray("DispositivosApareados");
+
+            for (int i = 0; i<MacAddressArray.length(); i++){
+                this.dispositivo.addPairedDevice(MacAddressArray.getString(i));
+            }
             System.out.println(dispositivo.MACAddress);
+            System.out.println(dispositivo.pairedDevices.toString());
 
             PrintStream output = new PrintStream(connection.getOutputStream());
             String msg;
-            if (BannedDevices.getInstance().isBanned(dispositivo.MACAddress)){
-                msg = "Sorry perro, está baneao!";
+            if (BannedDevices.getInstance().isBanned(this.dispositivo.MACAddress)){
+                msg = "Sorry perro, está baneao!\n";
             } else {
                 msg = "Bienvenido, es el cliente [" + id + "]\n";
+                Server.connections.addDevice(dispositivo);
+                this.dispositivo.validate();
+                Server.lookForConnections();
+
             }
 
             output.print(msg);
+
+//            while (true){
+//                System.out.println(input.readLine());
+//            }
+
+
 
 
 
