@@ -86,14 +86,17 @@ public class Server extends Thread {
         Device d1 = new Device("12:43:12:53:14");
         d1.addPairedDevice("43:12:43:12:56");
         d1.addPairedDevice("76:23:53:12:42");
+        d1.validate();
         Server.connections.addDevice(d1);
         Device d2 = new Device("43:12:43:12:56");
         d2.addPairedDevice("12:43:12:53:14");
         d2.addPairedDevice("76:23:53:12:42");
+        d2.validate();
         Server.connections.addDevice(d2);
         Device d3 = new Device("76:23:53:12:42");
         d3.addPairedDevice("12:43:12:53:14");
         d3.addPairedDevice("43:12:43:12:56");
+        d3.validate();
         Server.connections.addDevice(d3);
         Server.lookForConnections();
 
